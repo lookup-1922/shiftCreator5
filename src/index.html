@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shiftCreator5</title>
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/index.js"></script>
+</head>
+
+<body>
+  <div class="tab-menu">
+    <button data-page="index.html" class="active">ホーム</button>
+    <button data-page="pages/staff_management.html">スタッフ管理</button>
+    <button data-page="pages/shift_editor.html">シフト編集</button>
+    <button data-page="pages/shift_setting.html">シフト設定</button>
+    <button data-page="pages/settings.html">設定</button>
+  </div>
+
+  <div class="operating-menu">
+    <select id="action-select">
+      <option value="">-- 実行内容を選択してください --</option>
+      <option value="showAlert">アラートを表示</option>
+      <option value="changeColor">背景色を変える</option>
+      <option value="goPage">別ページに遷移</option>
+    </select>
+  </div>
+
+  <main class="container">
+    <p>shiftCreator5のご利用ありがとうございます。</p>
+    <p>これはshiftCrator5 General Editionです。</p>
+    <form class="row" id="greet-form">
+      <input id="greet-input" placeholder="Enter a name..." />
+      <button type="submit">Greet</button>
+    </form>
+    <p id="greet-msg"></p>
+  </main>
+</body>
+
+</html>

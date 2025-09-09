@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shiftCreator5</title>
+  <script src="../js/jquery-3.7.1.min.js"></script>
+  <script type="module" src="../js/main.js"></script>
+  <script type="module" src="../js/staff_management.js"></script>
+</head>
+
+<body>
+  <div class="tab-menu">
+    <button data-page="../index.html">ホーム</button>
+    <button data-page="../pages/staff_management.html" class="active">スタッフ管理</button>
+    <button data-page="../pages/shift_editor.html">シフト編集</button>
+    <button data-page="../pages/shift_setting.html">シフト設定</button>
+    <button data-page="../pages/settings.html">設定</button>
+  </div>
+
+  <select id="action-select">
+    <option value="">-- 実行内容を選択してください --</option>
+    <option value="addRecord">行を追加</option>
+    <option value="editRecord">行を編集</option>
+    <option value="deleteRecord">行を削除</option>
+    <option value="saveCsv">CSVに保存</option>
+    <option value="loadCsv">CSVを読み込み</option>
+  </select>
+
+  <main class="container">
+    <p>スタッフ管理</p>
+
+    <table id="staff_management_table">
+      <tr>
+        <td>ID</td>
+        <td>名前</td>
+        <td>属性</td>
+        <td>役割</td>
+      </tr>
+      <tr>
+        <td contenteditable="true">1234567</td>
+        <td contenteditable="true">lookup</td>
+        <td contenteditable="true">新人</td>
+        <td contenteditable="true">管理者, 調査担当</td>
+      </tr>
+    </table>
+  </main>
+</body>
+
+</html>

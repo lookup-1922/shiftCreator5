@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shiftCreator5</title>
+  <script src="../js/jquery-3.7.1.min.js"></script>
+  <script type="module" src="../js/main.js"></script>
+  <script type="module" src="../js/shift_setting.js"></script>
+</head>
+
+<body>
+  <div class="tab-menu">
+    <button data-page="../index.html">ホーム</button>
+    <button data-page="../pages/staff_management.html">スタッフ管理</button>
+    <button data-page="../pages/shift_editor.html">シフト編集</button>
+    <button data-page="../pages/shift_setting.html" class="active">シフト設定</button>
+    <button data-page="../pages/settings.html">設定</button>
+  </div>
+
+  <select id="action-select">
+    <option value="">-- 実行内容を選択してください --</option>
+  </select>
+
+  <main class="container">
+    <p>シフト設定</p>
+    <label>
+      <input type="checkbox" id="autoSave">
+      自動保存を有効にする
+    </label>
+  </main>
+</body>
+
+</html>

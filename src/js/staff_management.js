@@ -1,25 +1,24 @@
 const { invoke } = window.__TAURI__.core;
-const { open, save } = window.__TAURI__.dialog;
+const { open, save, message } = window.__TAURI__.dialog;
+const { load } = window.__TAURI__.store;
 
 $(function () {
     const actions = {
-        showAlert: () => alert("アラート！"),
-        changeColor: () => $("body").css("background-color", "lightblue"),
-        saveCsv: () => {
-            console.log(tableToArray());
-            const staffArray = tableToArray();
-            invoke("save_json", {
-                staff: staffArray,
-                path: "test.json"
-            }).then(() => alert("保存しました"));
+        addRow: () => {
+            let rowData = ["", "", "", ""];
+            addRowToTable("#staff_management_table", rowData);
         },
-        loadCsv: () => {
-            console.log(tableToArray());
-            const staffArray = tableToArray();
-            invoke("save_json", {
-                staff: staffArray,
-                path: "test.json"
-            }).then(() => alert("保存しました"));
+        deleteRow: () => {
+            let id = prompt("削除する行のIDを入力してください");
+            deleteRowById("#staff_management_table", id);
+        },
+        saveCsv: () => {
+            const staffArray = tableToArray("#staff_management_table");
+            saveCsv(staffArray);
+        },
+        loadCsv: async () => {
+            const staffArray = await loadCsv();
+            arrayToTable(staffArray, "#staff_management_table");
         }
     };
 
@@ -32,42 +31,74 @@ $(function () {
     });
 });
 
+// セルからフォーカスが外れたときの自動保存
+$(document).on("blur", "#staff_management_table td[contenteditable]", function () {
+    autoStore("#staff_management_table");
+});
+
+$(document).ready(function () {
+    loadFromStore("#staff_management_table");
+});
+
+// CSVとして保存する
 async function saveCsv(staff) {
     const filePath = await save({
-        title: "保存先を選んでください",
-        filters: [{ name: "JSON Files", extensions: ["json"] }],
+        filters: [
+            {
+                name: "My Filter",
+                extensions: ["csv"],
+            },
+        ],
     });
     if (filePath) {
-        await invoke("save_json", { staff, path: filePath });
+        await invoke("save_csv", { data: staff, path: filePath });
+        alert("保存しました");
     }
 }
 
-// 読み込むファイルを選んでロード
+// CSVを読み込む
 async function loadCsv() {
     const filePath = await open({
         multiple: false,
-        filters: [{ extensions: ["json"] }],
+        directory: false,
     });
-    if (filePath && typeof filePath === "string") {
-        const staff = await invoke("load_json", { path: filePath });
+    if (filePath) {
+        const staff = await invoke("load_csv", { path: filePath });
         console.log("Loaded staff:", staff);
         return staff;
     }
 }
 
-function tableToArray() {
-    const table = $("#staff_management_table");
+// Storeに保存する
+async function autoStore(tableId) {
+    const store = await load("store.json", { autoSave: false });
+    const staffArray = tableToArray(tableId);
+    await store.set(tableId, staffArray);
+    await store.save();
+}
+
+// Storeから読み出す
+async function loadFromStore(tableId) {
+    const store = await load("store.json", { autoSave: false });
+    const staffArray = await store.get(tableId) || [];
+    arrayToTable(staffArray, tableId);
+}
+
+// 表から2次元配列に変換する
+function tableToArray(tableId) {
+    const table = $(tableId);
     const data = [];
 
-    table.find("tr").slice(1).each(function () {
-        const row = {};
+    table.find("tr").slice(0).each(function () {
         const cells = $(this).find("td");
 
-        // 日本語見出し順に → 英語キーへ変換
-        row["id"] = $(cells[0]).text().trim();
-        row["name"] = $(cells[1]).text().trim();
-        row["attributes"] = $(cells[2]).text().trim();
-        row["roles"] = $(cells[3]).text().trim();
+        // 行を配列として作成
+        const row = [
+            $(cells[0]).text().trim(), // id
+            $(cells[1]).text().trim(), // name
+            $(cells[2]).text().trim(), // attributes
+            $(cells[3]).text().trim()  // roles
+        ];
 
         data.push(row);
     });
@@ -75,28 +106,47 @@ function tableToArray() {
     return data;
 }
 
-
-function arrayToTable(data) {
-    const table = $("#staff_management_table");
-
-    // ヘッダー行以外を削除
-    table.find("tr:gt(0)").remove();
-
-    // 日本語ラベルと英語キーの対応表
-    const columnMap = {
-        "ID": "id",
-        "名前": "name",
-        "属性": "attribute",
-        "役割": "role"
-    };
+// 2次元配列から表に変換する
+function arrayToTable(array, tableId) {
+    const table = $(tableId);
+    table.find("tr:gt(0)").remove(); // ヘッダー行以外を削除
 
     // データを行ごとに追加
-    data.forEach(staff => {
+    array.slice(1).forEach(rowArray => {
         const row = $("<tr>");
-        for (const label in columnMap) {
-            const key = columnMap[label];
-            row.append($("<td>").attr("contenteditable", "true").text(staff[key]));
-        }
+        rowArray.forEach(cell => {
+            row.append($("<td>").attr("contenteditable", "true").text(cell));
+        });
         table.append(row);
     });
+}
+
+function addRowToTable(tableId, rowData) {
+    const table = $(tableId);
+    const row = $("<tr>");
+
+    rowData.forEach(cell => {
+        row.append($("<td>").attr("contenteditable", "true").text(cell));
+    });
+
+    table.append(row);
+}
+
+function deleteRowById(tableId, id) {
+    const table = $(tableId);
+    let deleted = false;
+
+    table.find("tr").each(function (index) {
+        // 最初の列(ID列)をチェック
+        const cellText = $(this).find("td").eq(0).text().trim();
+        if (cellText === id) {
+            $(this).remove();
+            deleted = true;
+            return false; // break
+        }
+    });
+
+    if (!deleted) {
+        console.warn(`ID ${id} の行は見つかりませんでした`);
+    }
 }

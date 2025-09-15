@@ -41,47 +41,46 @@ $(document).ready(function () {
 });
 
 // CSVとして保存する
-async function saveCsv(staff) {
-    const filePath = await save({
+async function saveCsv(array) {
+    const path = await save({
         filters: [
             {
-                name: "My Filter",
+                name: "File",
                 extensions: ["csv"],
             },
         ],
     });
-    if (filePath) {
-        await invoke("save_csv", { data: staff, path: filePath });
+    if (path) {
+        await invoke("save_csv", { data: array, path: path });
         alert("保存しました");
     }
 }
 
 // CSVを読み込む
 async function loadCsv() {
-    const filePath = await open({
+    const path = await open({
         multiple: false,
         directory: false,
     });
-    if (filePath) {
-        const staff = await invoke("load_csv", { path: filePath });
-        console.log("Loaded staff:", staff);
-        return staff;
+    if (path) {
+        const array = await invoke("load_csv", { path: path });
+        return array;
     }
 }
 
 // Storeに保存する
 async function autoStore(tableId) {
     const store = await load("store.json", { autoSave: false });
-    const staffArray = tableToArray(tableId);
-    await store.set(tableId, staffArray);
+    const array = tableToArray(tableId);
+    await store.set(tableId, array);
     await store.save();
 }
 
 // Storeから読み出す
 async function loadFromStore(tableId) {
     const store = await load("store.json", { autoSave: false });
-    const staffArray = await store.get(tableId) || [];
-    arrayToTable(staffArray, tableId);
+    const array = await store.get(tableId) || [];
+    arrayToTable(array, tableId);
 }
 
 // 表から2次元配列に変換する
@@ -89,16 +88,13 @@ function tableToArray(tableId) {
     const table = $(tableId);
     const data = [];
 
-    table.find("tr").slice(0).each(function () {
-        const cells = $(this).find("td");
+    table.find("tr").each(function () {
+        const cells = $(this).find("th, td");
+        const row = [];
 
-        // 行を配列として作成
-        const row = [
-            $(cells[0]).text().trim(), // id
-            $(cells[1]).text().trim(), // name
-            $(cells[2]).text().trim(), // attributes
-            $(cells[3]).text().trim()  // roles
-        ];
+        cells.each(function () {
+            row.push($(this).text().trim());
+        });
 
         data.push(row);
     });
@@ -147,6 +143,6 @@ function deleteRowById(tableId, id) {
     });
 
     if (!deleted) {
-        console.warn(`ID ${id} の行は見つかりませんでした`);
+        console.log(`ID ${id} の行は見つかりませんでした`);
     }
 }

@@ -8,7 +8,7 @@
   <title>shiftCreator5</title>
   <script src="../js/jquery-3.7.1.min.js"></script>
   <script type="module" src="../js/main.js"></script>
-  <script type="module" src="../js/shift_editor.js"></script>
+  <script type="module" src="../js/preferred_working.js"></script>
 </head>
 
 <body>
@@ -16,53 +16,52 @@
     <button data-page="../index.html">ホーム</button>
     <button data-page="../pages/staff_management.html">スタッフ管理</button>
     <button data-page="../pages/schedule_creation.html">スケジュール作成</button>
-    <button data-page="../pages/preferred_working.html">希望管理</button>
-    <button data-page="../pages/shift_editor.html" class="active">シフト編集</button>
+    <button data-page="../pages/preferred_working.html" class="active">希望管理</button>
+    <button data-page="../pages/shift_editor.html">シフト編集</button>
     <button data-page="../pages/settings.html">設定</button>
   </div>
 
   <select id="action-select">
     <option value="">-- 実行内容を選択してください --</option>
-    <option value="caluculateShift">シフトを作成</option>
-    <option value="deleteShift">シフトを全て削除</option>
+    <option value="readForm">フォームから読み込む</option>
     <option value="saveCsv">CSVに保存</option>
     <option value="loadCsv">CSVを読み込み</option>
   </select>
 
   <main class="container">
-    <p>シフトviewer</p>
-    <table id="shift_viewe_table">
+    <details>
+      <summary>新規入力</summary>
+      <p>
+        <label>
+          スタッフID
+          <input type="text" id="staffId">
+        </label>
+        <span>名前</span>
+      </p>
+      <p>
+        日程のリストとチェックボックス
+      </p>
+      <button id="register">この内容で登録する</button>
+    </details>
+    <p>希望管理</p>
+    <table id="schedule_table">
       <tr>
         <td>スタッフID</td>
-        <td>9/1</td>
+        <td>名前</td>
+        <td>希望日</td>
+        <td>日数制限</td>
       </tr>
       <tr>
-        <td>12343 name</td>
-        <td>昼</td>
-      </tr>
-      <tr>
-        <td>3422423 tanaka</td>
-        <td>夕方</td>
-      </tr>
-    </table>
-
-    <p>シフト編集用</p>
-    <table id="shift_editor_table">
-      <tr>
-        <td>日付</td>
-        <td>時間</td>
-        <td>スタッフID</td>
-      </tr>
-      <tr>
+        <td contenteditable="true">1</td>
         <td contenteditable="true">9/1</td>
         <td contenteditable="true">昼</td>
-        <td contenteditable="true">24545</td>
-
+        <td contenteditable="true">2日</td>
       </tr>
       <tr>
+        <td contenteditable="true">2</td>
         <td contenteditable="true">9/1</td>
         <td contenteditable="true">夕方</td>
-        <td contenteditable="true">管理者: 1<br>補佐: 1</td>
+        <td contenteditable="true">10時間</td>
       </tr>
     </table>
   </main>

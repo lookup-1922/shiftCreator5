@@ -15,22 +15,35 @@
   <div class="tab-menu">
     <button data-page="../index.html">ホーム</button>
     <button data-page="../pages/staff_management.html">スタッフ管理</button>
+    <button data-page="../pages/schedule_creation.html">スケジュール作成</button>
+    <button data-page="../pages/preferred_working.html">希望管理</button>
     <button data-page="../pages/shift_editor.html">シフト編集</button>
-    <button data-page="../pages/shift_setting.html">シフト設定</button>
     <button data-page="../pages/settings.html" class="active">設定</button>
   </div>
 
   <select id="action-select">
     <option value="">-- 実行内容を選択してください --</option>
-    <option value="createBackup">バックアップを作成</option>
-    <option value="loadBackup">バックアップを読み込み</option>
+    <option value="saveCsv">CSVに保存</option>
+    <option value="loadCsv">CSVを読み込み</option>
   </select>
 
   <main class="container">
-    <p>一般</p>
+    <p>シフト</p>
     <label>
-      <input type="checkbox" id="autoSave">
-      自動保存を有効にする
+      <input type="checkbox" id="" checked>
+      一日に複数回のシフトを許容する
+    </label>
+    <label>
+      連続日数の制限
+      <input type="number" id="" value="12">
+    </label>
+    <label>
+      <input type="radio" name="preferred_working_hours" id="" checked>
+      希望は来れる時間のこと
+    </label>
+    <label>
+      <input type="radio" name="preferred_working_hours" id="">
+      希望は来れない時間のこと
     </label>
   </main>
 </body>

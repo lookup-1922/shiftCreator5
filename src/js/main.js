@@ -40,7 +40,7 @@ export async function loadCsv() {
     }
 }
 
-// Storeに保存する
+// tableをStoreに保存する
 export async function autoStore(tableId) {
     const store = await load("store.json", { autoSave: false });
     const array = tableToArray(tableId);

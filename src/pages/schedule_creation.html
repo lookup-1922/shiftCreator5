@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shiftCreator5</title>
+  <script src="../js/jquery-3.7.1.min.js"></script>
+  <script type="module" src="../js/main.js"></script>
+  <script type="module" src="../js/schedule_creation.js"></script>
+</head>
+
+<body>
+  <div class="tab-menu">
+    <button data-page="../index.html">ホーム</button>
+    <button data-page="../pages/staff_management.html">スタッフ管理</button>
+    <button data-page="../pages/schedule_creation.html" class="active">スケジュール作成</button>
+    <button data-page="../pages/preferred_working.html">希望管理</button>
+    <button data-page="../pages/shift_editor.html">シフト編集</button>
+    <button data-page="../pages/settings.html">設定</button>
+  </div>
+
+  <select id="action-select">
+    <option value="">-- 実行内容を選択してください --</option>
+    <option value="saveCsv">CSVに保存</option>
+    <option value="loadCsv">CSVを読み込み</option>
+  </select>
+
+  <main class="container">
+    <details>
+      <summary>新規スケジュール作成</summary>
+      <p>
+        <label>
+          開始日
+          <input type="date" id="startDate">
+        </label>
+        <label>
+          終了日
+          <input type="date" id="endDate">
+        </label>
+      </p>
+      <p>
+        <label>
+          除外する日を追加 (削除)
+          <input type="date" id="exclusionDate">
+        </label>
+        <button id="addExclusionDate">追加する</button>
+      </p>
+      <button id="newSchedule">新規スケジュール作成</button>
+    </details>
+    <p>スケジュール作成</p>
+
+    <table id="schedule_table">
+      <tr>
+        <td>ID</td>
+        <td>日付</td>
+        <td>時間</td>
+        <td>人数</td>
+      </tr>
+      <tr>
+        <td contenteditable="true">1</td>
+        <td contenteditable="true">9/1</td>
+        <td contenteditable="true">昼</td>
+        <td contenteditable="true">2</td>
+      </tr>
+      <tr>
+        <td contenteditable="true">2</td>
+        <td contenteditable="true">9/1</td>
+        <td contenteditable="true">夕方</td>
+        <td contenteditable="true">管理者: 1<br>補佐: 1</td>
+      </tr>
+    </table>
+
+    <p>時間-名称設定</p>
+    <table id="time_setting_table">
+      <tr>
+        <td>名前</td>
+        <td>開始時刻</td>
+        <td>終了時刻</td>
+      </tr>
+      <tr>
+        <td contenteditable="true">昼</td>
+        <td contenteditable="true">12:30</td>
+        <td contenteditable="true">13:30</td>
+      </tr>
+      <tr>
+        <td contenteditable="true">夕方</td>
+        <td contenteditable="true">15:30</td>
+        <td contenteditable="true">16:30</td>
+      </tr>
+    </table>
+  </main>
+</body>
+
+</html>

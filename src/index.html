@@ -15,17 +15,18 @@
   <div class="tab-menu">
     <button data-page="index.html" class="active">ホーム</button>
     <button data-page="pages/staff_management.html">スタッフ管理</button>
+    <button data-page="pages/schedule_creation.html">スケジュール作成</button>
+    <button data-page="pages/preferred_working.html">希望管理</button>
     <button data-page="pages/shift_editor.html">シフト編集</button>
-    <button data-page="pages/shift_setting.html">シフト設定</button>
     <button data-page="pages/settings.html">設定</button>
   </div>
 
   <div class="operating-menu">
     <select id="action-select">
       <option value="">-- 実行内容を選択してください --</option>
-      <option value="showAlert">アラートを表示</option>
-      <option value="changeColor">背景色を変える</option>
-      <option value="goPage">別ページに遷移</option>
+      <option value="deleteStore">Storeを削除</option>
+      <option value="saveCsv">全体をCSVに保存</option>
+      <option value="loadCsv">全体のCSVを読み込み</option>
     </select>
   </div>
 

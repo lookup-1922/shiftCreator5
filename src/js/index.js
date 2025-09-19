@@ -1,4 +1,7 @@
 const { invoke } = window.__TAURI__.core;
+const { load } = window.__TAURI__.store;
+
+import { saveCsv, loadCsv, loadFromStore, tableToArray, arrayToTable, } from "./main.js";
 
 let greetInputEl;
 let greetMsgEl;
@@ -18,17 +21,23 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 $(function () {
-  const actions = {
-    showAlert: () => alert("アラート！"),
-    changeColor: () => $("body").css("background-color", "lightblue"),
-    goPage: () => window.location.href = "staff.html"
-  };
+    const actions = {
+        deleteStore: () => {
+            if (window.confirm("内部に保存されているデータが削除されます。よろしいですか?")) {
+                const store = load("store.json", { autoSave: false });
+                store.reset();
+            }
+        },
+        saveCsv: () => {
+            alert("未実装の機能です。");
+        },
+    };
 
-  $("#action-select").on("change", function () {
-    const action = $(this).val();
-    if (actions[action]) {
-      actions[action]();   // 処理実行
-      $(this).val("");    // 初期状態に戻す
-    }
-  });
+    $("#action-select").on("change", function () {
+        const action = $(this).val();
+        if (actions[action]) {
+            actions[action]();   // 処理実行
+            $(this).val("");    // 初期状態に戻す
+        }
+    });
 });

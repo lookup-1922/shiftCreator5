@@ -1,26 +1,20 @@
 const { invoke } = window.__TAURI__.core;
-const { open, save, message } = window.__TAURI__.dialog;
-const { load } = window.__TAURI__.store;
 
-import { saveCsv, loadCsv, autoStore, loadFromStore, tableToArray, arrayToTable, addRowToTable, deleteRowById } from "./main.js";
+import { saveCsv, loadCsv, tableToArray, arrayToTable, tableCommands, syncWithStore, addRowToTable } from "./main.js";
 
 $(function () {
     const actions = {
         addRow: () => {
-            let rowData = ["", "", "", ""];
-            addRowToTable("#staff_management_table", rowData);
-        },
-        deleteRow: () => {
-            let id = prompt("削除する行のIDを入力してください");
-            deleteRowById("#staff_management_table", id);
+            let rowData = ["", "", ""];
+            addRowToTable("#shift_editor_table", rowData);
         },
         saveCsv: () => {
-            const staffArray = tableToArray("#staff_management_table");
-            saveCsv(staffArray);
+            const shiftArray = tableToArray("#shift_editor_table");
+            saveCsv(shiftArray, "shift_editor_table.csv");
         },
         loadCsv: async () => {
-            const staffArray = await loadCsv();
-            arrayToTable(staffArray, "#staff_management_table");
+            const shiftArray = await loadCsv();
+            arrayToTable(shiftArray, "#shift_editor_table");
         }
     };
 
@@ -33,12 +27,8 @@ $(function () {
     });
 });
 
-// セルからフォーカスが外れたときの自動保存
-$(document).on("blur", "#staff_management_table td[contenteditable]", function () {
-    autoStore("#staff_management_table");
-});
+// Storeとデータを同期する関数
+syncWithStore("#staff_management_table");
 
-$(document).ready(function () {
-    loadFromStore("#staff_management_table");
-});
-
+// tableでコマンドを使えるようにする関数
+tableCommands("#staff_management_table");

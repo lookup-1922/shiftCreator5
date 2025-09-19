@@ -13,11 +13,12 @@ $(function () {
 });
 
 // CSVとして保存する
-export async function saveCsv(array) {
+export async function saveCsv(array, defaultPath) {
     const path = await save({
+        defaultPath: defaultPath,
         filters: [
             {
-                name: "File",
+                name: "CSV",
                 extensions: ["csv"],
             },
         ],
@@ -41,7 +42,7 @@ export async function loadCsv() {
 }
 
 // tableをStoreに保存する
-export async function autoStore(tableId) {
+export async function saveToStore(tableId) {
     const store = await load("store.json", { autoSave: false });
     const array = tableToArray(tableId);
     await store.set(tableId, array);
@@ -100,21 +101,55 @@ export function addRowToTable(tableId, rowData) {
     table.append(row);
 }
 
-export function deleteRowById(tableId, id) {
-    const table = $(tableId);
-    let deleted = false;
+// Tableのコマンド機能
+export function tableCommands(tableId) {
+    $(document).on("blur", `${tableId} td:first-child`, function () {
+        const cell = $(this);
 
-    table.find("tr").each(function (index) {
-        // 最初の列(ID列)をチェック
-        const cellText = $(this).find("td").eq(0).text().trim();
-        if (cellText === id) {
-            $(this).remove();
-            deleted = true;
-            return false; // break
+        let html = cell.html().replace(/<br\s*\/?>/gi, "\n");
+        const lines = html.split(/\n/).map(s => s.trim());
+        const row = cell.closest("tr");
+        const colCount = row.find("td").length;
+
+        function createEmptyRow() {
+            const newRow = $("<tr>");
+            for (let i = 0; i < colCount; i++) {
+                newRow.append($("<td>").attr("contenteditable", "true"));
+            }
+            return newRow;
+        }
+
+        let command = null;
+        for (const line of lines) {
+            const lower = line.toLowerCase();
+            if (lower === "/delete") command = "/delete";
+            if (lower === "/add below") command = "/add below";
+            if (lower === "/add above") command = "/add above";
+        }
+
+        if (command) {
+            if (command === "/delete") {
+                row.remove();
+            } else if (command === "/add below") {
+                row.after(createEmptyRow());
+            } else if (command === "/add above") {
+                row.before(createEmptyRow());
+            }
+
+            // コマンド部分を削除してセルを更新
+            const newText = lines.filter(l => l.toLowerCase() !== command).join("\n");
+            cell.text(newText); // 改行で残す
         }
     });
+}
 
-    if (!deleted) {
-        console.log(`ID ${id} の行は見つかりませんでした`);
-    }
+export function syncWithStore(tableId) {
+    // セルからフォーカスが外れたときの自動保存
+    $(document).on("blur", `${tableId} td[contenteditable]`, function () {
+        saveToStore(tableId);
+    });
+
+    $(document).ready(function () {
+        loadFromStore(tableId);
+    });
 }

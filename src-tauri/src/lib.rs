@@ -1,6 +1,6 @@
 use csv::{ReaderBuilder, WriterBuilder};
 use std::fs::File;
-use std::io::Write;
+use std::io::{Write};
 
 // ビルダー関数
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -9,7 +9,11 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![greet, save_csv, load_csv,])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            save_csv,
+            load_csv,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

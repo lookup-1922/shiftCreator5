@@ -24,13 +24,14 @@
   <select id="action-select">
     <option value="">-- 実行内容を選択してください --</option>
     <option value="readForm">フォームから読み込む</option>
+    <option value="addRow">行を追加</option>
     <option value="saveCsv">CSVに保存</option>
     <option value="loadCsv">CSVを読み込み</option>
   </select>
 
   <main class="container">
     <details>
-      <summary>新規入力</summary>
+      <summary>新規入力・変更</summary>
       <p>
         <label>
           スタッフID
@@ -41,10 +42,13 @@
       <p>
         日程のリストとチェックボックス
       </p>
+      <p>
+        作成している期間内の制限時間・日数
+      </p>
       <button id="register">この内容で登録する</button>
     </details>
     <p>希望管理</p>
-    <table id="schedule_table">
+    <table id="preferred_working_table">
       <tr>
         <td>スタッフID</td>
         <td>名前</td>

@@ -7,13 +7,14 @@ $(function () {
         deleteShift: () => {
         },
         saveCsv: () => {
-            const staffArray = tableToArray("#staff_management_table");
-            saveCsv(staffArray, "staff_management_table.csv");
+            const shiftArray = tableToArray("#shift_editor_table");
+            saveCsv(shiftArray, "shift_editor_table.csv");
         },
         loadCsv: async () => {
-            const staffArray = await loadCsv();
-            arrayToTable(staffArray, "#staff_management_table");
-        }
+            const shiftArray = await loadCsv();
+            arrayToTable(shiftArray, "#shift_editor_table");
+            saveToStore("#shift_editor_table");
+        },
     };
 
     $("#action-select").on("change", function () {
@@ -24,3 +25,6 @@ $(function () {
         }
     });
 });
+
+// Storeとデータを同期する関数
+syncWithStore("#shift_editor_table");

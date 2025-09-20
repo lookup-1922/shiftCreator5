@@ -1,4 +1,4 @@
-import { saveCsv, loadCsv, saveToStore, loadFromStore, tableToArray, arrayToTable, tableCommands, syncWithStore, addRowToTable } from "./main.js";
+import { saveCsv, loadCsv, saveToStore, tableToArray, arrayToTable, tableCommands, syncWithStore, addRowToTable } from "./main.js";
 
 $(function () {
     const actions = {
@@ -15,6 +15,7 @@ $(function () {
         loadCsv: async () => {
             const preferArray = await loadCsv();
             arrayToTable(preferArray, "#preferred_working_table");
+            saveToStore("#preferred_working_table");
         }
     };
 

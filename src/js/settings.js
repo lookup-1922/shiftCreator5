@@ -1,14 +1,10 @@
-import { saveCsv, loadCsv, saveToStore, loadFromStore, tableToArray, arrayToTable, tableCommands } from "./main.js";
+import { saveCsv, loadCsv, saveToStore, loadFromStore, } from "./main.js";
 
 $(function () {
     const actions = {
         saveCsv: () => {
-            const staffArray = tableToArray("#staff_management_table");
-            saveCsv(staffArray, "staff_management_table.csv");
         },
         loadCsv: async () => {
-            const staffArray = await loadCsv();
-            arrayToTable(staffArray, "#staff_management_table");
         }
     };
 

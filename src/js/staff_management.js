@@ -1,20 +1,22 @@
 const { invoke } = window.__TAURI__.core;
 
-import { saveCsv, loadCsv, tableToArray, arrayToTable, tableCommands, syncWithStore, addRowToTable } from "./main.js";
+import { saveCsv, loadCsv, saveToStore, tableToArray, arrayToTable, tableCommands, syncWithStore, addRowToTable, } from "./main.js";
 
 $(function () {
     const actions = {
         addRow: () => {
             let rowData = ["", "", ""];
-            addRowToTable("#shift_editor_table", rowData);
+            addRowToTable("#staff_management_table", rowData);
         },
+
         saveCsv: () => {
-            const shiftArray = tableToArray("#shift_editor_table");
-            saveCsv(shiftArray, "shift_editor_table.csv");
+            const staffArray = tableToArray("#staff_management_table");
+            saveCsv(staffArray, "staff_management_table.csv");
         },
         loadCsv: async () => {
-            const shiftArray = await loadCsv();
-            arrayToTable(shiftArray, "#shift_editor_table");
+            const staffArray = await loadCsv();
+            arrayToTable(staffArray, "#staff_management_table");
+            saveToStore("#staff_management_table");
         }
     };
 

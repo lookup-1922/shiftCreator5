@@ -83,5 +83,6 @@ $("#newSchedule").on("click", async function () {
             current.setDate(current.getDate() + 1);
         }
         arrayToTable(scheduleArray, "#schedule_table");
+        saveToStore("#schedule_table");
     }
 });

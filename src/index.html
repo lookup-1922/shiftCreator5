@@ -41,6 +41,9 @@
       <h2>データの保存</h2>
       <p>表の操作は内部に自動保存される。原則自動保存は表のセルからフォーカスが離れたタイミングで行われる。</p>
 
+      <h2>情報</h2>
+      <p>スタッフIDとは任意の文字列で良い。ただし重複してはならない。</p>
+
       <h2>表の操作</h2>
       <p>左端の列ではコマンドが使用できる。コマンドの入力でセル内にデータがある場合、セル内で改行して最終行に書けば良い。</p>
       <ul>
@@ -49,10 +52,12 @@
         <li>/add below により下に行の追加</li>
       </ul>
     </details>
+    <p>
     <form class="row" id="greet-form">
       <input id="greet-input" placeholder="Enter a name..." />
       <button type="submit">Greet</button>
     </form>
+    </p>
     <p id="greet-msg"></p>
   </main>
 </body>

@@ -8,7 +8,7 @@
   <title>shiftCreator5</title>
   <script src="../js/jquery-3.7.1.min.js"></script>
   <script type="module" src="../js/main.js"></script>
-  <script type="module" src="../js/client_management.js"></script>
+  <script type="module" src="../js/settings.js"></script>
 </head>
 
 <body>
@@ -23,7 +23,6 @@
 
   <select id="action-select">
     <option value="">-- 実行内容を選択してください --</option>
-    <option value="addRow">行を追加</option>
     <option value="saveCsv">CSVに保存</option>
     <option value="loadCsv">CSVを読み込み</option>
   </select>
@@ -31,27 +30,27 @@
   <main class="container">
     <p>シフト</p>
     <label>
-      <input type="checkbox" id="" checked>
+      <input type="checkbox" id="allowMultipleShiftsPerDay" checked>
       一日に複数回のシフトを許容する
     </label>
     <p>
       <label>
         一日の時間の制限
-        <input type="number" id="" value="8">
+        <input type="number" id="dailyTimeLimit" value="8">
       </label>
     </p>
     <p>
       <label>
         連続日数の制限
-        <input type="number" id="" value="12">
+        <input type="number" id="consecutiveDayLimit" value="12">
       </label>
     </p>
     <label>
-      <input type="radio" name="preferred_working_hours" id="" checked>
+      <input type="radio" name="preferred_working_hours" value="available" checked>
       希望は来れる時間のこと
     </label>
     <label>
-      <input type="radio" name="preferred_working_hours" id="">
+      <input type="radio" name="preferred_working_hours" value="unavailable">
       希望は来れない時間のこと
     </label>
   </main>
